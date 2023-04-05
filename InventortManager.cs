@@ -9,7 +9,7 @@ public class InventortManager : MonoBehaviour
     public List<Ingredient> liveThing = new List<Ingredient>();
     public List<Ingredient> vegetable = new List<Ingredient>();
     public List<Ingredient> souce = new List<Ingredient>();
-    float a = 100;
+    float a;
 
     
 
@@ -21,9 +21,8 @@ public class InventortManager : MonoBehaviour
     
     public void AddBox(GameObject item)
     {
-        //float a = item.GetComponent<FoodInfo>().freshness;
+        float a = item.GetComponent<FoodInfo>().freshness;
         box.AcquireItem(item, a);
-        a--;
     }
     public void AddItem(GameObject x)
     {

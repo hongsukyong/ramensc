@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ItemDatabase : MonoBehaviour
 {
-    public List<GameObject> ingredientItme = new List<GameObject>();
+    public List<GameObject> ingredientItem = new List<GameObject>();
 }

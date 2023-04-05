@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 public class refSlot : MonoBehaviour , IPointerClickHandler
 {
+    public List<float> freshness = new List<float>();
     public GameObject Obj;
     public Ingredient item; //? 인그레디언트 아이템정보
     [SerializeField] Image itemimage;  //? 아이템이미지
@@ -18,7 +19,20 @@ public class refSlot : MonoBehaviour , IPointerClickHandler
     //? 냉장고에 단품으로 들어가야하는 아이템이라면 카운트이미지 꺼버림 
 
     public GameObject insObj;
-    public Queue<float> freshness = new Queue<float>();
+    DataDisplayer dataDisplayer;
+    refrigerater refriger;
+
+    [Header ("신선도 최고값 최저값")]
+    [SerializeField] float k = 0;
+    [SerializeField] float y;
+
+    [Header ("신선도 인덱스")]
+    public int indexH;
+    public int indexL;
+
+    [Header ("부모오브젝트")]
+    public string a;
+
 
     
     void Start()
@@ -26,17 +40,20 @@ public class refSlot : MonoBehaviour , IPointerClickHandler
         text = GetComponentInChildren<TextMeshProUGUI>();
         itemimage = gameObject.transform.GetChild(0).GetComponent<Image>();
         SetTextImage();
+        dataDisplayer = GameObject.FindObjectOfType<DataDisplayer>();
+        refriger = GameObject.FindObjectOfType<refrigerater>();
     }
 
     //*아이탬획득 
-    public void AddItem(GameObject obj, float fresh, int _Count = 1)
+    public void AddItem(GameObject obj, float fresh)
     {
+        SetTextImage();
         Obj = obj;
         item = obj.GetComponent<Info>().item;
-        itmeCount = _Count;
+        itmeCount = 1;
         itemimage.sprite = item.image;
         text.text = item.name;
-        freshness.Enqueue(fresh);
+        freshness.Add(fresh);
         
 
 
@@ -52,6 +69,7 @@ public class refSlot : MonoBehaviour , IPointerClickHandler
         }
 
         SetColor(1);
+        FindValue();
     }
 
     //*색깔조정 아이템이없으면 슬롯색깔없음 
@@ -69,6 +87,7 @@ public class refSlot : MonoBehaviour , IPointerClickHandler
     //*아이탬겟수
     public void SetSlotCount(int _count)
     {
+        
         itmeCount += _count;
         countText.text = itmeCount.ToString();
 
@@ -76,6 +95,8 @@ public class refSlot : MonoBehaviour , IPointerClickHandler
         {
             ClearSlot();
         }
+        SetTextImage();
+        FindValue();
     }
 
     //*슬롯초기화
@@ -94,7 +115,7 @@ public class refSlot : MonoBehaviour , IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        string a = this.transform.parent.transform.parent.transform.name;
+        a = this.transform.parent.transform.parent.transform.name;
         if(a.Contains("Box"))
         {
             Box(eventData);
@@ -103,74 +124,115 @@ public class refSlot : MonoBehaviour , IPointerClickHandler
         {
             Refriger(eventData);
         }
+        FindValue();
     }
 
     void Refriger(PointerEventData eventData)
     {
         if(eventData.button == PointerEventData.InputButton.Right)
         {
-            Debug.Log("ref");
             if(item != null)
             {
                 if(item.itemType == Ingredient.ItemType.LiveThings)
                 {
                     //! 생물일경우
                     Debug.Log(item.name +" 을 사용했습니다.");
-                    Instantiate(item.prefab, insObj.transform.position, Quaternion.identity);
+                    GameObject G = item.prefab;
+                    Instantiate(G, insObj.transform.position, Quaternion.identity);
                     item.prefab.GetComponent<SpriteRenderer>().sortingOrder = 2;
-                    item.prefab.gameObject.GetComponent<FoodInfo>().freshness = freshness.Dequeue();
+                    G.GetComponent<FoodInfo>().freshness = freshness[indexH];
+                    freshness.Remove(freshness[indexH]);
+
+                    //item.prefab.gameObject.GetComponent<FoodInfo>().freshness = freshness.Dequeue();
                 }
                 else if (item.itemType == Ingredient.ItemType.vegetable)
                 {
                     Debug.Log(item.name +" 을 사용했습니다.");
+                    GameObject G = item.prefab;
                     Instantiate(item.prefab, insObj.transform.position, Quaternion.identity);
                     item.prefab.GetComponent<SpriteRenderer>().sortingOrder = 2;
-                    Debug.Log(freshness.Peek());
-                    item.prefab.gameObject.GetComponent<FoodInfo>().freshness = freshness.Dequeue();
+                    G.GetComponent<FoodInfo>().freshness = freshness[indexH];
+                    freshness.Remove(freshness[indexH]);
+                    //item.prefab.gameObject.GetComponent<FoodInfo>().freshness = freshness.Dequeue();
                     SetSlotCount(-1);
                 }
             }
         }
         if(eventData.button == PointerEventData.InputButton.Left)
         {
-            DataDisplayer dataDisplayer;
-            dataDisplayer = GameObject.FindObjectOfType<DataDisplayer>();
-            dataDisplayer.panel.gameObject.SetActive(true);
-            dataDisplayer.Display(Obj);
+            FindValue();
+            dataDisplayer.Display(Obj, k, y, this.gameObject);
         }
     }
 
     void Box(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Right)
-        {
-            Debug.Log("box");
-            if(item != null)
-            {
-                if(item.itemType == Ingredient.ItemType.LiveThings)
-                {
-                Obj.GetComponent<Info>().GetComponent<Ingredient>();
-                    //! 생물일경우
-                    Debug.Log(item.name +" 을 냉장고로 이동시켰습니다.");
-                    refrigerater refriger = GameObject.FindObjectOfType<refrigerater>();
-                    refriger.AcquireItem(Obj, freshness.Dequeue());
-
-                    SetSlotCount(-1);
-                }
-                else if (item.itemType == Ingredient.ItemType.vegetable)
-                {
-                    Debug.Log(item.name +" 을 냉장고로 이동시켰습니다.");
-                    refrigerater refriger = GameObject.FindObjectOfType<refrigerater>();
-                    refriger.AcquireItem(Obj, freshness.Dequeue());
-                    SetSlotCount(-1);
-                }
-            }
-        }
         if(eventData.button == PointerEventData.InputButton.Left)
         {
-            DataDisplayer dataDisplayer;
-            dataDisplayer = GameObject.FindObjectOfType<DataDisplayer>();
-            dataDisplayer.Display(Obj);
+            dataDisplayer.Display(Obj, k, y, this.gameObject);
         }
     }
+    public void HighValueMoveRef()
+    {
+        HighValueReturn();
+        SetSlotCount(-1);
+    }
+    public void LowValueReturnRef()
+    {
+        LowValueReturn();
+        SetSlotCount(-1);
+    }
+
+    void FindFreshnessValueH()
+    {
+        k = 0;
+        for(int h=0; h < freshness.Count; h++)
+        {
+            if(freshness[h] > k)
+            {
+                k = freshness[h];
+                indexH = h;
+            }
+        }
+        Debug.Log("k의 인덱스번호는 =" + indexH);
+        
+        
+    }
+    void FindFreshnessValueR()
+    {
+        y = 100;
+
+        for(int l=0; l < freshness.Count; l++)
+        {
+            if(freshness[l] < y)
+            {
+                y= freshness[l];
+                indexL = l;
+            }
+        }
+        Debug.Log("y의 인덱스번호는 =" + indexL);
+        
+    }
+    void FindValue()
+    {
+        FindFreshnessValueH();
+        FindFreshnessValueR();
+    }
+
+    public void HighValueReturn()
+    {
+        Debug.Log("하이벨류");
+        refriger.AcquireItem(Obj, freshness[indexH]);
+        freshness.Remove(freshness[indexH]);
+        
+    }
+    public void LowValueReturn()
+    {
+        refriger.AcquireItem(Obj, freshness[indexL]);
+        freshness.Remove(freshness[indexL]);
+    }
+
+
+
+
 }

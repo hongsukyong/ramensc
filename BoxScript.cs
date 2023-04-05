@@ -21,9 +21,6 @@ public class BoxScript : MonoBehaviour
     [SerializeField] private GameObject go_slotParent;
     private refSlot[] slots;
     [SerializeField] List<Ingredient> inventory = new List<Ingredient>();
-
-    public Ingredient ingredient;
-
     void Start()
     {
         slots = go_slotParent.GetComponentsInChildren<refSlot>();
@@ -33,6 +30,7 @@ public class BoxScript : MonoBehaviour
     {
         panel.gameObject.SetActive(!panel.activeSelf);
         PanelOpen();
+        
         
     }
     
@@ -48,10 +46,9 @@ public class BoxScript : MonoBehaviour
         gameManager.ConfirmDrag();
     }
 
-    public void AcquireItem(GameObject _obj, float fresh, int _count = 1)                           //? 슥듭합니다 아이템을 카운트만큼
+    public void AcquireItem(GameObject _obj, float fresh)                           //? 슥듭합니다 아이템을
     {
         Ingredient _item =_obj.gameObject.GetComponent<Info>().item;
-        //fresh = _obj.GetComponent<FoodInfo>().freshness;
         
 
         if(_item.itemType != Ingredient.ItemType.LiveThings)                            //? (_item)의 타입이 생물재료가 아니라면 
@@ -62,8 +59,8 @@ public class BoxScript : MonoBehaviour
                 {
                     if(slots[i].item.ingredientName == _item.ingredientName)            //? 슬롯의 i번째의 아이템 이름이 추가할 아이템이름과 같다면 
                     {
-                        slots[i].SetSlotCount(_count);                                  //? 슬롯카운트를 변경합니다 (_카운트만큼)
-                        slots[i].freshness.Enqueue(fresh);
+                        slots[i].SetSlotCount(1); //? 슬롯카운트를 변경합니다 (_카운트만큼)
+                        slots[i].freshness.Add(fresh);
                         return;
                     }   
                 }
@@ -73,7 +70,7 @@ public class BoxScript : MonoBehaviour
         {
             if(slots[i].item == null)                                                   //? (_item)의 타입이 생물재료가 아니라면 
             {
-                slots[i].AddItem(_obj, fresh, _count);                                        //? _item을 카운트만큼 추가합니다
+                slots[i].AddItem(_obj, fresh);                                        //? _item을 카운트만큼 추가합니다
                 return;
             }
         }

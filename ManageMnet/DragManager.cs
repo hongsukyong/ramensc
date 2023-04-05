@@ -19,16 +19,8 @@ public class DragManager : MonoBehaviour
 
     void Ready()
     {
-        if(dataDisplayer.isOn)
-        {
-            dataDisplayer.DisplayOff();
-        }
-        else
-        {
-            gameManager.ConfirmDrag();
-            dragready = gameManager.canDrag;
-        }
-       
+        gameManager.ConfirmDrag();
+        dragready = gameManager.canDrag;
     }
     
     void Start()
@@ -67,13 +59,11 @@ public class DragManager : MonoBehaviour
 
         if(!draging)
         {
-            Debug.Log("StartDrag");
             if(clickObj != null)
             ObjEvent();
         }
         else
         {
-            Debug.Log("enddrag");
             EndDrag();
         }
     }
@@ -109,12 +99,10 @@ public class DragManager : MonoBehaviour
     {
         if(clickObj.gameObject.tag == "dragable")
         {
-            Debug.Log("startdrag");
             StartDrag();
         }
         else if(clickObj.gameObject.tag == "eventtool")
         {
-            Debug.Log("tableevent");
             TableEvent();
         }
     }
