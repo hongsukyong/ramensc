@@ -14,6 +14,9 @@ public class DataDisplayer : MonoBehaviour
     [SerializeField] float y;
     [Header ("현제 아이템 슬롯")]
     [SerializeField] GameObject currentSlot;
+    [SerializeField] GameObject a;
+    [SerializeField] GameObject b;
+
     void Start()
     {
         itemName.text = "";
@@ -57,6 +60,31 @@ public class DataDisplayer : MonoBehaviour
         DisplayOff();
     }
 
+    public void ButtonParentTracking1()
+    {
+        if(a.gameObject.activeSelf)
+        {
+            currentSlot.GetComponent<refSlot>().HighValueMoveRef();
+        }
+        else if(b.gameObject.activeSelf)
+        {
+
+        }
+    }
+    
+    public void ButtonParentTracking2()
+    {
+        if(a.gameObject.activeSelf)
+        {
+            currentSlot.GetComponent<refSlot>().LowValueReturnRef();
+        }
+        else if(b.gameObject.activeSelf)
+        {
+            
+        }
+    }
+}
+
     
 
-}
+

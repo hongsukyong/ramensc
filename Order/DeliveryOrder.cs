@@ -10,6 +10,7 @@ public class DeliveryOrder : MonoBehaviour
     InventortManager inventortManager;
     FreshnessManager freshnessManager;
     ItemDatabase itemDb;
+    GameObject A;
 
     void Start()
     {
@@ -29,16 +30,16 @@ public class DeliveryOrder : MonoBehaviour
 
 	for(int b= 0; b <i; b++)
 	{
-		ItemDraw();
+        int x = Random.Range(0, itemDb.ingredientItem.Count);
+	    GameObject A = itemDb.ingredientItem[x];
+		ItemDraw(A);
 	}
     p_Panel.SetActive(false);
 }
 
-void ItemDraw()
+void ItemDraw(GameObject A)
 {
-	int x = Random.Range(0, itemDb.ingredientItem.Count);
-	GameObject A = itemDb.ingredientItem[x];
-	SpawnItem(A);
+	//SpawnItem(A);
 	FreshnessDraw(A, 1);
     inventortManager.AddItem(A);
 }
@@ -54,8 +55,6 @@ void FreshnessDraw(GameObject x, int y) //int y 는 상점의 등급 10등급까
 
 	int k = Random.Range( 10 * y + 1, 100);
 	x.GetComponent<FoodInfo>().freshness = k;
-
-
 }
 
 
