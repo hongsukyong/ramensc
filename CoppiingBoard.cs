@@ -38,7 +38,7 @@ public class CoppiingBoard : MonoBehaviour
             TextControll();
             domaEvent.gameObject.SetActive(false);
             domaimg = currentDoma.GetComponent<DomaInfo>().doma.image;
-            DOmaImageP.GetComponent<Image>().sprite = domaimg;
+            DOmaImageP.GetComponent<Image>().sprite = domaimg; //? 도마의 픽셀사이즈가 달라서 화면 ui가 도마크기를 따라 이동함 도마크기 통일할 필요 있음 
         }
     }
 
