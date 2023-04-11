@@ -1,0 +1,19 @@
+using System.Collections;
+using.System.Collections.Generic;
+using UnityEngine;
+
+public class DomaTool : MonoBehaviour
+{
+    public float 현재내구도;
+    public sprite[] 이미지배열;
+
+    void Start()
+    {
+        내구도부여();
+    }
+
+    void 내구도부여()
+    {
+        현재내구도 = this.gameobject.Getcomponet<Doma>().총내구도;
+    }
+}

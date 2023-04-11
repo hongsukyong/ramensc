@@ -56,7 +56,7 @@ public class DataDisplayer : MonoBehaviour
     }
     public void LowValue()
     {
-        currentSlot.GetComponent<refSlot>().LowValueReturn();
+        currentSlot.GetComponent<refSlot>().LowValueReturnRef();
         DisplayOff();
     }
 
@@ -64,11 +64,11 @@ public class DataDisplayer : MonoBehaviour
     {
         if(a.gameObject.activeSelf)
         {
-            currentSlot.GetComponent<refSlot>().HighValueMoveRef();
+            HighValue();
         }
         else if(b.gameObject.activeSelf)
         {
-
+            LowValue();
         }
     }
     

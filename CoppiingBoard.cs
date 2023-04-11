@@ -6,6 +6,7 @@ using TMPro;
 
 public class CoppiingBoard : MonoBehaviour
 {
+    public GameObject currentDoma;
     public Camera cam;
     Vector3 eventPos;
     Vector3 originPos;
@@ -14,9 +15,11 @@ public class CoppiingBoard : MonoBehaviour
     public int speed;
     [SerializeField] GameObject pnael;
     [SerializeField] TextMeshProUGUI text;
-    [SerializeField] GameObject actionP;
+    public GameObject actionP;
     DragManager dragManager1;
     [SerializeField] DomaEvent domaEvent;
+    [SerializeField] Sprite domaimg;
+    [SerializeField] GameObject DOmaImageP;
     void Start()
     {
 
@@ -25,6 +28,7 @@ public class CoppiingBoard : MonoBehaviour
         eventPos = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y , -10);
         eventcanvas.gameObject.SetActive(false);
         slider.fillAmount = 0f;
+        currentDoma = GameObject.FindObjectOfType<DomaInfo>().gameObject;
     }
     public void ChopboardOpen()
     {
@@ -33,6 +37,8 @@ public class CoppiingBoard : MonoBehaviour
             eventcanvas.gameObject.SetActive(true);
             TextControll();
             domaEvent.gameObject.SetActive(false);
+            domaimg = currentDoma.GetComponent<DomaInfo>().doma.image;
+            DOmaImageP.GetComponent<Image>().sprite = domaimg;
         }
     }
 

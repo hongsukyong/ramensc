@@ -12,7 +12,7 @@ public class Ingredient : ScriptableObject
     public string ingredientName;
 
     public Sprite image;
-
+    public Sprite[] loadImgae;
     public ItemType itemType;
     public GameObject prefab;
 
@@ -22,5 +22,14 @@ public class Ingredient : ScriptableObject
         Souce,
         vegetable,
         LiveThings
+    }
+    public enum ItemGrade
+    {
+        Comon,
+        Nomal,
+        Rare,
+        Epic,
+        Legend,
+        Hidden
     }
 }
