@@ -92,7 +92,7 @@ public class DragManager : MonoBehaviour
         if(Hit.collider.gameObject != null)
         {
             clickObj = Hit.collider.gameObject;
-            Debug.Log(clickObj);
+            Debug.Log("lickObj : " + clickObj);
         }
     }
     void ObjEvent()

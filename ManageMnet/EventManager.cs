@@ -7,14 +7,18 @@ public class EventManager : MonoBehaviour
     [SerializeField]refrigerater refscript;
     [SerializeField] BoxScript box;
     [SerializeField] CoppiingBoard chop;
+    StoveEvent stove;
+    DragManager drag;
 
     public Ingredient ing;
 
     void Start()
     {
+        chop = GameObject.FindObjectOfType<CoppiingBoard>();
+        drag = GameObject.FindObjectOfType<DragManager>();
         refscript = GameObject.FindObjectOfType<refrigerater>();
         box = GameObject.FindObjectOfType<BoxScript>();
-        
+        stove = GameObject.FindObjectOfType<StoveEvent>();
     }
 
   public void ToolEvent(string name)
@@ -32,7 +36,7 @@ public class EventManager : MonoBehaviour
                 chop.ChopboardOpen();
                 break;
             case "Stove" : 
-                Debug.Log("fireevent");
+                stove.StoveEvent1(drag.controllObj);    
                 break;
             case "Refrigerater" :
                 Debug.Log("Refrigerater");

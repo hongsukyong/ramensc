@@ -22,7 +22,7 @@ public class CoppiingBoard : MonoBehaviour
     [SerializeField] GameObject DOmaImageP;
     void Start()
     {
-
+        pnael.gameObject.SetActive(true);
         dragManager1 = GameObject.FindObjectOfType<DragManager>();
         originPos = cam.transform.position;
         eventPos = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y , -10);
