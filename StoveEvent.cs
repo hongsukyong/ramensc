@@ -9,9 +9,12 @@ public class StoveEvent : MonoBehaviour
     [SerializeField] Frypan c_frypan;
     [SerializeField] StoveDb dataBase;
     [SerializeField] GameObject fpReturn;
+    DragManager drag;
+    public GameObject insObj;    
     
     void Start()
     {
+        drag = GameObject.FindObjectOfType<DragManager>();
         dataBase = GameObject.FindObjectOfType<StoveDb>();
         CurrentFrypan();
     }
@@ -32,8 +35,16 @@ public class StoveEvent : MonoBehaviour
 
     public void StoveEvent1(GameObject A)
     {
-        dataBase.DataInput(A);
-        SpawnItem();
+        Debug.Log(A.GetComponent<Info>().item.fry);
+        if(A.GetComponent<Info>().item.fry)
+        {
+            
+            dataBase.DataInput(A);
+            SpawnItem();
+            drag.controllObj = null;
+        }
+        slot1.gameObject.GetComponent<Boxcolider2D>().enabled = false;
+        
     }
 
     void SpawnItem()
@@ -44,10 +55,15 @@ public class StoveEvent : MonoBehaviour
         {
             if(A.ingredientName == itemDb.ingredientItem[i].GetComponent<Info>().item.ingredientName)
             {
-               Instantiate(itemDb.ingredientItem[i], slot1.transform);
+                insObj = itemDb.ingredientItem[i];
+               Instantiate(insObj, slot1.transform);
                Destroy(dataBase.inputItem);
                return;
             }
         }
+    }
+    public void SlotColControll()
+    {
+        slot1.GetComponent<Boxcolider2D>().enabled = true;
     }
 }

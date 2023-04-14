@@ -15,6 +15,9 @@ public class Ingredient : ScriptableObject
     public Sprite[] loadImgae;
     public ItemType itemType;
     public GameObject prefab;
+    public bool 냄비;
+    public bool 도마;
+    public bool fry;
 
     [TextArea]    public string description;
     public enum ItemType

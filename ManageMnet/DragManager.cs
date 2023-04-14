@@ -16,6 +16,7 @@ public class DragManager : MonoBehaviour
     EventManager eventManager;
     [SerializeField] GameManager gameManager;
     DataDisplayer dataDisplayer;
+    StoveEvent stove;
 
     void Ready()
     {
@@ -25,6 +26,7 @@ public class DragManager : MonoBehaviour
     
     void Start()
     {
+        stove = gameObject.FindObjectOfType<StoveEvent>();
         gameManager = gameManager.GetComponent<GameManager>();
         eventManager = gameManager.GetComponent<EventManager>();
         dataDisplayer = FindObjectOfType<DataDisplayer>();
@@ -56,6 +58,10 @@ public class DragManager : MonoBehaviour
     void DragSystem()
     {
         BringInfo();
+        if(clickObj.gameObject == stove.insObj)
+        {
+            stove.SlotColControll();
+        }
 
         if(!draging)
         {
