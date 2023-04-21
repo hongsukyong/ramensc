@@ -18,6 +18,7 @@ public class Ingredient : ScriptableObject
     public bool 냄비;
     public bool 도마;
     public bool fry;
+    public int itemNumber;
 
     [TextArea]    public string description;
     public enum ItemType

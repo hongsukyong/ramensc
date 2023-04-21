@@ -20,6 +20,7 @@ public class CoppiingBoard : MonoBehaviour
     [SerializeField] DomaEvent domaEvent;
     [SerializeField] Sprite domaimg;
     [SerializeField] GameObject DOmaImageP;
+
     void Start()
     {
         pnael.gameObject.SetActive(true);
@@ -30,16 +31,25 @@ public class CoppiingBoard : MonoBehaviour
         slider.fillAmount = 0f;
         currentDoma = GameObject.FindObjectOfType<DomaInfo>().gameObject;
     }
-    public void ChopboardOpen()
+
+    public void ChopboardOpen(GameObject _g)
     {
-        if(dragManager1.controllObj != null)
+        if(_g.GetComponent<Info>().item.도마)
         {
-            eventcanvas.gameObject.SetActive(true);
+            OpenGameObjSetControll();
             TextControll();
-            domaEvent.gameObject.SetActive(false);
-            domaimg = currentDoma.GetComponent<DomaInfo>().doma.image;
-            DOmaImageP.GetComponent<Image>().sprite = domaimg; //? 도마의 픽셀사이즈가 달라서 화면 ui가 도마크기를 따라 이동함 도마크기 통일할 필요 있음 
+            OpenImgControll();
         }
+    }
+    void OpenGameObjSetControll()
+    {
+        eventcanvas.gameObject.SetActive(true);
+        domaEvent.gameObject.SetActive(false);
+    }
+    void OpenImgControll()
+    {
+        domaimg = currentDoma.GetComponent<DomaInfo>().doma.image;
+        DOmaImageP.GetComponent<Image>().sprite = domaimg; //? 도마의 픽셀사이즈가 달라서 화면 ui가 도마크기를 따라 이동함 도마크기 통일할 필요 있음
     }
 
     void Update()
@@ -122,6 +132,5 @@ public class CoppiingBoard : MonoBehaviour
     }
 
     #endregion
-    
 
 }

@@ -33,10 +33,13 @@ public class EventManager : MonoBehaviour
                 break;
             case "Choppingboard" :
                 Debug.Log("Chopevent");
-                chop.ChopboardOpen();
+                chop.ChopboardOpen(drag.controllObj);
                 break;
-            case "Stove" : 
+            case "Stove1" : 
                 stove.StoveEvent1(drag.controllObj);    
+                break;
+            case "Stove2":
+                Debug.Log("냄비작업");
                 break;
             case "Refrigerater" :
                 Debug.Log("Refrigerater");

@@ -26,7 +26,7 @@ public class DragManager : MonoBehaviour
     
     void Start()
     {
-        stove = gameObject.FindObjectOfType<StoveEvent>();
+        stove = GameObject.FindObjectOfType<StoveEvent>();
         gameManager = gameManager.GetComponent<GameManager>();
         eventManager = gameManager.GetComponent<EventManager>();
         dataDisplayer = FindObjectOfType<DataDisplayer>();
@@ -58,20 +58,29 @@ public class DragManager : MonoBehaviour
     void DragSystem()
     {
         BringInfo();
-        if(clickObj.gameObject == stove.insObj)
-        {
-            stove.SlotColControll();
-        }
 
-        if(!draging)
+        
+
+        if (!draging)
         {
-            if(clickObj != null)
-            ObjEvent();
+            if (clickObj != null)
+            {
+                ObjEvent();
+
+                if(stove.insObj != null)
+                if (clickObj == stove.insObj)
+                {
+                    stove.SlotColControll();
+                }
+            }
         }
         else
         {
             EndDrag();
         }
+
+        
+        
     }
     void BringInfo()
     {
@@ -137,10 +146,15 @@ public class DragManager : MonoBehaviour
         ColiderControll();
 
         controllObj.gameObject.transform.position = controllObj.gameObject.transform.position;
+
+        if(clickObj != null)
         if(clickObj.gameObject.tag == "eventtool")
         {
             TableEvent();
         }
+
+        clickObj = null;
+        controllObj = null;
     }
     void TableEvent()
     {
