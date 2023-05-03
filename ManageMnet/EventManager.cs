@@ -9,11 +9,13 @@ public class EventManager : MonoBehaviour
     [SerializeField] CoppiingBoard chop;
     StoveEvent stove;
     DragManager drag;
+    Noodle noodle;
 
     public Ingredient ing;
 
     void Start()
     {
+        noodle = GameObject.FindObjectOfType<Noodle>();
         chop = GameObject.FindObjectOfType<CoppiingBoard>();
         drag = GameObject.FindObjectOfType<DragManager>();
         refscript = GameObject.FindObjectOfType<refrigerater>();
@@ -39,7 +41,7 @@ public class EventManager : MonoBehaviour
                 stove.StoveEvent1(drag.controllObj);    
                 break;
             case "Stove2":
-                Debug.Log("냄비작업");
+                    stove.StoveEvent2(drag.controllObj);     
                 break;
             case "Refrigerater" :
                 Debug.Log("Refrigerater");
@@ -50,6 +52,14 @@ public class EventManager : MonoBehaviour
                 break;
             case "OrderBox" :
                 box.BoxOpen();
+                break;
+            case "NoodelShelf" :
+                Debug.Log("noodle");
+                noodle.SelectNoodle();
+                break;
+            case "SoupShelf" :
+                Debug.Log("soup");
+                noodle.SelectSoup();
                 break;
         }
     }

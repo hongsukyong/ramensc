@@ -5,13 +5,16 @@ using UnityEngine;
 public class StoveEvent : MonoBehaviour
 {  
     [SerializeField] GameObject slot1;
-    [SerializeField] GameObject slot2;
+    public GameObject slot2;
     [SerializeField] Frypan c_frypan;
     [SerializeField] StoveDb dataBase;
     [SerializeField] GameObject fpReturn;
     DragManager drag;
     public GameObject insObj;
     ItemDatabase itemDb;
+    PotEventDatabase potDb;
+    PotEvent potEvent;
+    public GameObject a;
     
 
     
@@ -20,6 +23,8 @@ public class StoveEvent : MonoBehaviour
         drag = GameObject.FindObjectOfType<DragManager>();
         dataBase = GameObject.FindObjectOfType<StoveDb>();
         itemDb = GameObject.FindObjectOfType<ItemDatabase>();
+        potDb = GameObject.FindObjectOfType<PotEventDatabase>();
+        potEvent = GameObject.FindObjectOfType<PotEvent>();
         CurrentFrypan();
     }
 
@@ -71,8 +76,40 @@ public class StoveEvent : MonoBehaviour
         slot1.GetComponent<BoxCollider2D>().enabled = true;
     }
 
-    void StoveEvent2 (GameObject _g )
+    public void StoveEvent2(GameObject b)
     {
-       
+        Debug.Log(b);
+       a = b;
+       if(b == null)
+       {
+            potEvent.IsPanelOppen(true);
+            potEvent.ButtonOnOff();
+       }
+       else
+       {
+            if(b.name.Contains("Noodle"))
+            {
+                 NoodleEvent();
+                 return;
+            }
+            else if(b.name.Contains("Soup"))
+            {
+                SoupEvent();
+                return;
+            }
+            else
+            {
+                potEvent.IsPanelOppen(true);
+                potEvent.ButtonOnOff();
+            }
+       }
+    }
+    void NoodleEvent()
+    {
+        potEvent.AddNoddle();
+    }
+    void SoupEvent()
+    {
+        potEvent.AddSoup();
     }
 }
