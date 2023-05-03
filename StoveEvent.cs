@@ -92,10 +92,24 @@ public class StoveEvent : MonoBehaviour
                  NoodleEvent();
                  return;
             }
+            else if(b.name.Contains("Soup"))
+            {
+                SoupEvent();
+                return;
+            }
+            else
+            {
+                potEvent.IsPanelOppen(true);
+                potEvent.ButtonOnOff();
+            }
        }
     }
-    public void NoodleEvent()
+    void NoodleEvent()
     {
         potEvent.AddNoddle();
+    }
+    void SoupEvent()
+    {
+        potEvent.AddSoup();
     }
 }

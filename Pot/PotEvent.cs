@@ -91,6 +91,23 @@ public class PotEvent : MonoBehaviour
 
         IsPanelOppen(false);
     }
+    public void AddSoup()
+    {
+        if(stove.a.gameObject.GetComponent<Info>() != null)
+        {
+            if(stove.a.gameObject.GetComponent<Info>().item != null)
+            {
+                if(c_ItemNumber >= 10000)
+                {
+                    c_ItemNumber -= 10000;
+                }
+                Debug.Log(stove.a.gameObject.GetComponent<Info>().item.itemNumber);
+                c_ItemNumber += stove.a.gameObject.GetComponent<Info>().item.itemNumber;
+                WaterReturn();
+            }
+        }
+        IsPanelOppen(false);
+    }
     public void AddTopping()
     {
         if(stove.a.gameObject.GetComponent<Info>() != null)
@@ -131,9 +148,10 @@ public class PotEvent : MonoBehaviour
         {
             for (int i = 0; i < potImgDb.potImg.Count; i++)
             {
-                Debug.Log(c_ItemNumber);
-                if (c_ItemNumber >= potImgDb.potImg[i].spriteNum)
+                Debug.Log(c_ItemNumber/1000);
+                if (c_ItemNumber/1000 == potImgDb.potImg[i].spriteNum/1000)
                 {
+                    Debug.Log(potImgDb.potImg[i].spriteNum);
                     water.gameObject.GetComponent<SpriteRenderer>().sprite = potImgDb.potImg[i].img;
                     return;
                 }
@@ -148,9 +166,9 @@ public class PotEvent : MonoBehaviour
         {
             for (int i = 0; i < potImgDb.ndlImg.Count; i++)
             {
-                Debug.Log(c_ItemNumber%1000);
+                Debug.Log(c_ItemNumber%1000 / 100);
                 
-                if(c_ItemNumber%1000 <= potImgDb.ndlImg[i].spriteNum)
+                if(c_ItemNumber%1000/100 <= potImgDb.ndlImg[i].spriteNum/100)
                 {
                     
                     noodle.gameObject.GetComponent<SpriteRenderer>().sprite = potImgDb.ndlImg[i].img;
@@ -158,7 +176,7 @@ public class PotEvent : MonoBehaviour
                     return;
                 }
             }
-        }   //! 보류 
+        }   
     }
 
     void ToppingReturn()
