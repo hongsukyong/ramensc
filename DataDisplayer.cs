@@ -16,6 +16,7 @@ public class DataDisplayer : MonoBehaviour
     [SerializeField] GameObject currentSlot;
     [SerializeField] GameObject a;
     [SerializeField] GameObject b;
+    
 
     void Start()
     {
@@ -82,6 +83,7 @@ public class DataDisplayer : MonoBehaviour
         {
             
         }
+        
     }
 }
 
