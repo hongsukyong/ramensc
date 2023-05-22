@@ -17,6 +17,7 @@ public class DragManager : MonoBehaviour
     [SerializeField] GameManager gameManager;
     DataDisplayer dataDisplayer;
     StoveEvent stove;
+    TagController tagC;
 
     void Ready()
     {
@@ -26,6 +27,7 @@ public class DragManager : MonoBehaviour
     
     void Start()
     {
+        tagC = GameObject.FindObjectOfType<TagController>();
         stove = GameObject.FindObjectOfType<StoveEvent>();
         gameManager = gameManager.GetComponent<GameManager>();
         eventManager = gameManager.GetComponent<EventManager>();
@@ -58,7 +60,7 @@ public class DragManager : MonoBehaviour
     void DragSystem()
     {
         BringInfo();
-
+        tagC.PotTagChange();
         
 
         if (!draging)
@@ -112,6 +114,7 @@ public class DragManager : MonoBehaviour
     }
     void ObjEvent()
     {
+        
         if(clickObj.gameObject.tag == "dragable")
         {
             StartDrag();
@@ -126,12 +129,14 @@ public class DragManager : MonoBehaviour
         controllObj = clickObj;
         draging = true;
         ColiderControll();
+        tagC.PotTagChange();
     }
 
     void ObjectPosControll()
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         controllObj.gameObject.transform.position = mousePos;
+        
     }
 
     void ColiderControll()
