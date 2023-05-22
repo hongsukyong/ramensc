@@ -20,11 +20,12 @@ public class PotEvent : MonoBehaviour
     public bool pOpen;
     DragManager dragManager;
     StoveEvent stove;
+    TagController tagCtr;
 
     void Awake()
     {
+        tagCtr = GameObject.FindObjectOfType<TagController>();
         potDb = GameObject.FindObjectOfType<PotEventDatabase>();
-        slotP.gameObject.SetActive(false);
         potImgDb = GameObject.FindObjectOfType<PotSpriteDatabase>();
         dragManager = GameObject.FindObjectOfType<DragManager>();
         stove = GameObject.FindObjectOfType<StoveEvent>();
@@ -33,8 +34,10 @@ public class PotEvent : MonoBehaviour
     void Start()
     {
         ButtonOnOff();
+        IsPanelOppen(false);
     }
     
+
     public void ButtonOnOff()
     {
         DragManager drag; 
@@ -67,16 +70,26 @@ public class PotEvent : MonoBehaviour
         {
             addWater.gameObject.SetActive(false);
         }
-        if(addWater.gameObject.activeSelf)
-        {
-            returnObj.gameObject.SetActive(false);
-        }
-        else
-        {
-            returnObj.gameObject.SetActive(true);
-        }
 
         
+    }
+    void ButtonOff()
+    {
+        addIngredient.gameObject.SetActive(false);
+        potReset.gameObject.SetActive(false);
+    }
+    public void PotTosink()
+    {
+        IsPanelOppen(true);
+        ButtonOff();
+        if(c_ItemNumber < 10000)
+        {
+            addWater.gameObject.SetActive(true);
+        }
+        if(c_ItemNumber > 0)
+        {
+            potReset.gameObject.SetActive(true);
+        }
     }
     public void AddWater()
     {
@@ -124,7 +137,7 @@ public class PotEvent : MonoBehaviour
 
     public void IsPanelOppen(bool a)     //? 판넬이 오픈되었는지 확인하는 함수 게임메니저에서 드레그 or 클릭 가능 여부를 제어하기 위함 
     {
-         slotP.gameObject.SetActive(a);
+        slotP.gameObject.SetActive(a);
         pOpen = slotP.gameObject.activeSelf;
     }
 

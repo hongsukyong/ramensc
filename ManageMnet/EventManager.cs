@@ -10,6 +10,8 @@ public class EventManager : MonoBehaviour
     StoveEvent stove;
     DragManager drag;
     Noodle noodle;
+    SinkEvent sink;
+    TagController tagC;
 
     public Ingredient ing;
 
@@ -21,6 +23,8 @@ public class EventManager : MonoBehaviour
         refscript = GameObject.FindObjectOfType<refrigerater>();
         box = GameObject.FindObjectOfType<BoxScript>();
         stove = GameObject.FindObjectOfType<StoveEvent>();
+        sink = GameObject.FindObjectOfType<SinkEvent>();
+        tagC = GameObject.FindObjectOfType<TagController>();
     }
 
   public void ToolEvent(string name)
@@ -29,9 +33,11 @@ public class EventManager : MonoBehaviour
         {
             case "Pot" :
                 Debug.Log("PotEvent");
+                stove.StoveEvent2(drag.controllObj);     
                 break;
             case "Sink" :
                 Debug.Log("sinkevent");
+                sink.PotAddWater();
                 break;
             case "Choppingboard" :
                 Debug.Log("Chopevent");
@@ -41,6 +47,7 @@ public class EventManager : MonoBehaviour
                 stove.StoveEvent1(drag.controllObj);    
                 break;
             case "Stove2":
+                    Debug.Log("stoveEvent");
                     stove.StoveEvent2(drag.controllObj);     
                 break;
             case "Refrigerater" :
